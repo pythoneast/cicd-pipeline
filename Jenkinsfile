@@ -11,12 +11,12 @@ pipeline {
       }
     }
 
-    stage('Build') {
+    stage('Application Build') {
       steps {
         script {
           sh 'chmod +x ./scripts/build.sh'
           sh './scripts/build.sh'
-          echo 'Build Is Completed'
+          echo 'Application Build Is Completed'
         }
 
       }
