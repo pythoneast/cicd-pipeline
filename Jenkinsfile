@@ -22,7 +22,7 @@ pipeline {
       }
     }
 
-    stage('Test') {
+    stage('Tests') {
       post {
         success {
           echo 'Test step is passed'
@@ -53,28 +53,7 @@ pipeline {
       }
     }
 
-    stage('Check Docker Image for Vulnerabilities') {
-      steps {
-        script {
-          sh 'mkdir -p reports'
-          sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
-          def vulnerabilities = sh(script: "trivy image --ignore-unfixed --exit-code 0 --severity CRITICAL,HIGH,MEDIUM --format template --template '@html.tpl' -o reports/image-scan.html --no-progress ${registry}:${env.BUILD_ID}", returnStdout: true).trim()
-          echo "Vulnerability Report:\n${vulnerabilities}"
-          publishHTML target : [
-            allowMissing: true,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'reports',
-            reportFiles: 'image-scan.html',
-            reportName: 'Trivy Scan',
-            reportTitles: 'Trivy Scan'
-          ]
-        }
-
-      }
-    }
-
-    stage('Publish Docker Image') {
+    stage('Docker Image Push') {
       steps {
         script {
           docker.withRegistry('', 'dockerhub_id') {
