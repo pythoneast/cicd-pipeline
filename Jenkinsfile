@@ -74,6 +74,19 @@ pipeline {
       }
     }
 
+    stage('Publish Docker Image') {
+      steps {
+        script {
+          docker.withRegistry('', 'dockerhub_id') {
+            docker.image("${registry}:${env.BUILD_NUMBER}").push('latest')
+            docker.image("${registry}:${env.BUILD_NUMBER}").push("${env.BUILD_NUMBER}")
+            echo 'Docker Image Push to DockerHub Completed'
+          }
+        }
+
+      }
+    }
+
   }
   environment {
     registry = 's312r365fdh232345kklh34256sd76/ci-cd-practical-task-ali-palitaev'
