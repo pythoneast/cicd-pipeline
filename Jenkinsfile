@@ -42,6 +42,17 @@ pipeline {
       }
     }
 
+    stage('Docker Image Build') {
+      steps {
+        script {
+          sh "docker build -t ${registry}:${BUILD_NUMBER} ."
+          sh "docker tag ${registry}:${BUILD_NUMBER} ${registry}:latest "
+          echo 'Docker Image Built Is Completed'
+        }
+
+      }
+    }
+
   }
   environment {
     registry = 's312r365fdh232345kklh34256sd76/ci-cd-practical-task-ali-palitaev'
