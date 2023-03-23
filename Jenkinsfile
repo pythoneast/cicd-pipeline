@@ -22,6 +22,16 @@ pipeline {
       }
     }
 
+    stage('Test') {
+      steps {
+        script {
+          sh 'chmod +x ./scripts/test.sh'
+          sh './scripts/test.sh'
+        }
+
+      }
+    }
+
   }
   environment {
     registry = 's312r365fdh232345kklh34256sd76/ci-cd-practical-task-ali-palitaev'
