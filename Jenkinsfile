@@ -47,7 +47,7 @@ pipeline {
         script {
           sh "docker build -t ${registry}:${BUILD_NUMBER} ."
           sh "docker tag ${registry}:${BUILD_NUMBER} ${registry}:latest "
-          echo 'Docker Image Built Is Completed'
+          echo 'Docker Image Build Is Completed'
         }
 
       }
