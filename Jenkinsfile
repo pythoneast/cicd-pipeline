@@ -23,19 +23,22 @@ pipeline {
     }
 
     stage('Test') {
+      post {
+        success {
+          echo 'Test step is passed'
+        }
+
+        failure {
+          echo 'Test step is failed'
+        }
+
+      }
       steps {
         script {
           sh 'chmod +x ./scripts/test.sh'
           sh './scripts/test.sh'
         }
-      }
-      post {
-         success {
-            echo 'Test step is passed'
-         }
-         failure {
-            echo 'Test step is failed'
-         }
+
       }
     }
 
